@@ -1,5 +1,6 @@
 import pickle
 
+
 def saving_variable(pname, variable):
     f = open('./data/' + pname + '.pkl', 'wb')
     pickle.dump(variable, f, protocol=4)
