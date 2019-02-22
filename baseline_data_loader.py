@@ -8,16 +8,17 @@ class DiffCode2Title(Dataset):
         '''
 
     def __init__(self, diff_code, title, diff_code_word_count, title_word_count, diff_code_word2idx, title_word2idx,
-                 seq_length):
+                 diffcode_seq_length, title_seq_length):
         self.diff_code = diff_code
         self.title = title
         self.diff_code_word_count = diff_code_word_count
         self.title_word_count = title_word_count
         self.diff_code_word2idx = diff_code_word2idx
         self.title_word2idx = title_word2idx
-        self.seq_length = seq_length
-        self.unk_en = set()
-        self.unk_fr = set()
+        self.diffcode_seq_length = diffcode_seq_length
+        self.title_seq_length = title_seq_length
+        self.unk_diffcode = set()
+        self.unk_title = set()
 
     def __len__(self):
         return len(self.fr_sentences)
@@ -29,12 +30,12 @@ class DiffCode2Title(Dataset):
         '''
 
         # init torch tensors, note that 0 is the padding index
-        french_tensor = torch.zeros(self.seq_length, dtype=torch.long)
-        english_tensor = torch.zeros(self.seq_length, dtype=torch.long)
+        diffcode_tensor = torch.zeros(self.diffcode_seq_length, dtype=torch.long)
+        title_tensor = torch.zeros(self.title_seq_length, dtype=torch.long)
 
         # Get sentence pair
-        french_sentence = self.fr_sentences[idx].split()
-        english_sentence = self.en_sentences[idx].split()
+        diffcode_sentence = self.diff_code[idx].split()
+        title_sentence = self.title[idx].split()
 
         # Add <EOS> tags
         french_sentence.append('</s>')

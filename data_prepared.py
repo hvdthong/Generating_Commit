@@ -16,7 +16,7 @@ def title_word_dictionary(sentences):
     return word_count
 
 
-def title_word_index(word_count):
+def word_index(word_count):
     word2idx = {k: v + 3 for v, k in enumerate(word_count.keys())}
     word2idx['<pad>'] = 0
     word2idx['<s>'] = 1
@@ -127,16 +127,40 @@ def baseline_clean_code(data):
             new_diff.append(' '.join(word_tokenize(' '.join(lines).strip())))
         new_diffs.append(new_diff)
     return new_diffs
+
+
 #####################################################################################################
 #####################################################################################################
+# word dictionary for diffcode
+def baseline_diffcode_word_dictionary(diff_code):
+    word_count = {}
+    for patch in diff_code:
+        files = ''
+        for file in patch:
+            files += file
+        split_files = files.split()
+        for word in split_files:
+            if word in word_count:
+                word_count[word] += 1
+            else:
+                word_count[word] = 1
+    word_count['</s>'] = len(diff_code)
+    return word_count
 
 
 if __name__ == '__main__':
+    # project = 'openstack'
+    # # project = 'qt'
+    # data = loading_variable(pname=project)
+    # ids, title, diff_code = get_id(data=data), get_title(data=data), baseline_clean_code(
+    #     get_diff_code(data=data, project=project))
+    # data = (ids, title, diff_code)
+    # saving_variable(pname='baseline_diffcode_' + project, variable=data)
+    # print(len(ids), len(title), len(diff_code))
+    #####################################################################################################
+    #####################################################################################################
     project = 'openstack'
-    # project = 'qt'
-    data = loading_variable(pname=project)
-    ids, title, diff_code = get_id(data=data), get_title(data=data), baseline_clean_code(
-        get_diff_code(data=data, project=project))
-    data = (ids, title, diff_code)
-    saving_variable(pname='baseline_diffcode_' + project, variable=data)
+    data = loading_variable(pname='baseline_diffcode_' + project)
+    ids, title, diff_code = data
+    diff_code_word_count = baseline_diffcode_word_dictionary(diff_code=diff_code)
     print(len(ids), len(title), len(diff_code))
