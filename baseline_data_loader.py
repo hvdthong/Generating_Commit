@@ -7,13 +7,13 @@ class DiffCode2Title(Dataset):
             Diff Code and associated Title sentences.
         '''
 
-    def __init__(self, diff_code, title, diff_code_word_count, title_word_count, diff_code_word2idx, title_word2idx,
+    def __init__(self, diffcode, title, diffcode_word_count, title_word_count, diffcode_word2idx, title_word2idx,
                  diffcode_seq_length, title_seq_length):
-        self.diff_code = diff_code
+        self.diffcode = diffcode
         self.title = title
-        self.diff_code_word_count = diff_code_word_count
+        self.diffcode_word_count = diffcode_word_count
         self.title_word_count = title_word_count
-        self.diff_code_word2idx = diff_code_word2idx
+        self.diffcode_word2idx = diffcode_word2idx
         self.title_word2idx = title_word2idx
         self.diffcode_seq_length = diffcode_seq_length
         self.title_seq_length = title_seq_length

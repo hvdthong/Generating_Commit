@@ -2,12 +2,32 @@ from pickle_data import loading_variable
 import string
 from nltk.tokenize import word_tokenize
 from pickle_data import saving_variable
+from nltk.stem import PorterStemmer
+import wordninja
+
+
+def stem_wordninja(word):
+    words = wordninja.split(word)
+    ps = PorterStemmer()
+    stem_words = list()
+    for word in words:
+        stem_words.append(ps.stem(word))
+    return stem_words
 
 
 def title_word_dictionary(sentences):
     word_count = {}
     for sent in sentences:
         for word in sent.split():
+            #####################################################################
+            # add stem and wordninja
+            # words = stem_wordninja(word)
+            # for word in words:
+            #     if word in word_count:
+            #         word_count[word] += 1
+            #     else:
+            #         word_count[word] = 1
+            # #####################################################################
             if word in word_count:
                 word_count[word] += 1
             else:
@@ -132,9 +152,9 @@ def baseline_clean_code(data):
 #####################################################################################################
 #####################################################################################################
 # word dictionary for diffcode
-def baseline_diffcode_word_dictionary(diff_code):
+def baseline_diffcode_word_dictionary(diffcode):
     word_count = {}
-    for patch in diff_code:
+    for patch in diffcode:
         files = ''
         for file in patch:
             files += file
@@ -144,7 +164,7 @@ def baseline_diffcode_word_dictionary(diff_code):
                 word_count[word] += 1
             else:
                 word_count[word] = 1
-    word_count['</s>'] = len(diff_code)
+    word_count['</s>'] = len(diffcode)
     return word_count
 
 
